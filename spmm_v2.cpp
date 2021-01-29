@@ -134,7 +134,11 @@ int main()
     descr.type = SPARSE_MATRIX_TYPE_GENERAL;
     descr.mode = SPARSE_FILL_MODE_LOWER;
     descr.diag = SPARSE_DIAG_NON_UNIT;
+    clock_t analysis_start = clock();
     status = mkl_sparse_set_mm_hint(SA, SPARSE_OPERATION_NON_TRANSPOSE, descr, SPARSE_LAYOUT_ROW_MAJOR, K, niter);
+    clock_t analysis_end = clock();
+    double analysis_time = (analysis_end - analysis_start) * 1000.0 / CLOCKS_PER_SEC;
+    printf("Analysis time cost %lf ms\n", analysis_time);
     if (status != SPARSE_STATUS_SUCCESS)
     {
         printf("Analysis failed!!\n");
@@ -152,9 +156,9 @@ int main()
     clock_t t_end = clock();
     double timecost = (t_end - t_start) * 1.0 / CLOCKS_PER_SEC * 1000 / niter;
 
-    show(A, 100);
-    show(B, 100);
-    show(C, 100);
+    // show(A, 100);
+    // show(B, 100);
+    // show(C, 100);
 
     printf("Time Cost: %lf Sparsity: %f \n", timecost, sparsity);
 
